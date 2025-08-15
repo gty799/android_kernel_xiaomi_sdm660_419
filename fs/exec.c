@@ -1994,7 +1994,6 @@ static int compat_do_execveat(int fd, struct filename *filename,
 #endif
 	return do_execveat_common(fd, filename, argv, envp, flags);
 }
-#endif
 
 void set_binfmt(struct linux_binfmt *new)
 {
