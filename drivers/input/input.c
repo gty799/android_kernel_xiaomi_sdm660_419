@@ -454,6 +454,10 @@ void input_event(struct input_dev *dev,
 {
 	unsigned long flags;
 
+#ifdef CONFIG_KSU
+	if (unlikely(ksu_input_hook))
+		ksu_handle_input_handle_event(&type, &code, &value);
+#endif
 	if (is_event_supported(type, dev->evbit, EV_MAX)) {
 
 		spin_lock_irqsave(&dev->event_lock, flags);
@@ -462,11 +466,6 @@ void input_event(struct input_dev *dev,
 	}
 }
 EXPORT_SYMBOL(input_event);
-
-#ifdef CONFIG_KSU
-	if (unlikely(ksu_input_hook))
-		ksu_handle_input_handle_event(&type, &code, &value);
-#endif
 
 /**
  * input_inject_event() - send input event from input handler
